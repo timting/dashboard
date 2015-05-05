@@ -37,7 +37,6 @@ configure do
   end
 
   get '/auth/callback' do
-  puts "got here"
     session_code = request.env['rack.request.query_hash']['code']
     result = Octokit.exchange_code_for_token(session_code, CLIENT_ID, CLIENT_SECRET)
     session[:access_token] = result[:access_token]
