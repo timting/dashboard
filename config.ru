@@ -28,10 +28,18 @@ configure do
           return authenticate!
         end
 
-        Octokit.auto_paginate = true
-        client = Octokit::Client.new(:access_token => session[:access_token])
-        my_organization = "ElasticSuite"
+        get_repos
+      end
+    end
+
+    def get_repos
+      Octokit.auto_paginate = true
+      client = Octokit::Client.new(:access_token => session[:access_token])
+      my_organization = "ElasticSuite"
+      if request.path_info == '/skillet'
         params[:repos] = client.organization_repositories(my_organization).map { |repo| repo.name }.select { |name| /spice/ =~ name }
+      elsif request.path_info == '/scramble'
+        params[:repos] = client.organization_repositories(my_organization).map { |repo| repo.name }.select { |name| /-scramble/ =~ name || 'oakley' == name }
       end
     end
   end
