@@ -11,6 +11,7 @@ configure do
     def authenticate!
       client = Octokit::Client.new
       url = client.authorize_url(CLIENT_ID, :scope => 'repo')
+      session[:previous_url] = request.fullpath
       redirect url
     end
 
@@ -48,7 +49,7 @@ configure do
     session_code = request.env['rack.request.query_hash']['code']
     result = Octokit.exchange_code_for_token(session_code, CLIENT_ID, CLIENT_SECRET)
     session[:access_token] = result[:access_token]
-    redirect '/'
+    redirect session[:previous_url] || '/'
   end
 end
 
