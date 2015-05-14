@@ -1,0 +1,9 @@
+<h1 class="header" data-bind="header"></h1>
+
+<ul class="list">
+  <li data-foreach-issue="issues">
+      <span class="title">#</span><span class="title" data-bind="issue.number"></span> <span class="title" data-bind="issue.title"></span>
+  </li>
+</ul>
+
+<p class="more-info" data-bind="moreinfo"></p>
